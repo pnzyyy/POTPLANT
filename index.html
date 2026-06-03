@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="POTPLANT – Exklusive Designer-Blumentöpfe mit halbautomatischem Bewässerungssystem. Bis zu 4 Wochen autonom. Handgefertigt in Europa." />
-  <meta name="theme-color" content="#FAF7F2" />
+  <meta name="description" content="POTPLANT – Exklusive Designer-Blumentöpfe mit halbautomatischem Bewässerungssystem. Handgefertigt in Europa." />
+  <meta name="theme-color" content="#090909" />
   <title>POTPLANT – Designer-Töpfe mit Selbstbewässerung</title>
 
   <!-- Open Graph -->
@@ -15,643 +15,388 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Favicon inline SVG -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🪴</text></svg>" />
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23090909'/><text y='24' x='4' font-size='20' fill='%23F4F1EC'>P</text></svg>" />
 </head>
 <body>
 
-  <!-- ── Loading Screen ──────────────────────────────────────── -->
-  <div id="loading-screen" role="status" aria-label="Lädt…">
-    <div class="loader-logo">POT<span>PLANT</span></div>
-    <div class="loader-bar-track">
-      <div class="loader-bar"></div>
-    </div>
-    <div class="loader-leaf">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#7A9E7E" stroke-width="1.8">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 22V12m0 0C12 7 7 4 3 5c0 4 3 8 9 7zm0 0c0-5 5-8 9-7-1 4-4 8-9 7"/>
-      </svg>
-    </div>
+  <!-- ── Custom Cursor ───────────────────────────────────────── -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <div class="cursor__ring"></div>
+    <div class="cursor__dot"></div>
   </div>
 
-  <!-- ── Toast Notification ──────────────────────────────────── -->
+  <!-- ── Toast Notification ─────────────────────────────────── -->
   <div class="toast" role="alert" aria-live="polite">
-    <span class="toast__icon">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
-      </svg>
-    </span>
     <span class="toast__message"></span>
   </div>
 
-  <!-- ── Floating Cart Button ─────────────────────────────────── -->
-  <button class="floating-cart" id="floating-cart" aria-label="Warenkorb öffnen">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/>
-    </svg>
-    Jetzt kaufen
-    <span class="floating-cart__count" id="floating-cart-count">0</span>
-  </button>
-
-  <!-- ── Product Modal ─────────────────────────────────────────── -->
-  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Produktdetails">
-    <div class="modal">
-      <button class="modal__close" id="modal-close" aria-label="Schließen">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <!-- ── Cart Panel ─────────────────────────────────────────── -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" role="complementary" aria-label="Warenkorb">
+    <div class="cart-panel__header">
+      <span class="cart-panel__title">Warenkorb</span>
+      <button class="cart-panel__close" id="cart-close" aria-label="Warenkorb schließen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
         </svg>
       </button>
-      <div id="modal-content" style="display:contents"></div>
     </div>
-  </div>
+    <div class="cart-panel__items" id="cart-items">
+      <!-- Rendered by JS -->
+    </div>
+    <div class="cart-panel__footer" id="cart-footer">
+      <div class="cart-panel__total">
+        <span>Gesamt</span>
+        <span id="cart-total">0 €</span>
+      </div>
+      <button class="cart-panel__checkout" id="cart-checkout">Zur Kasse</button>
+      <p class="cart-panel__note">Inkl. MwSt. — Versand wird berechnet</p>
+    </div>
+    <div class="cart-panel__empty" id="cart-empty">
+      <p>Ihr Warenkorb ist leer.</p>
+    </div>
+  </aside>
 
-  <!-- ── Announcement Bar ──────────────────────────────────────── -->
-  <div class="announcement-bar">
-    ✦ <strong>Gratis Versand</strong> ab 99 € &nbsp;|&nbsp; Handgefertigt in Europa &nbsp;|&nbsp; <strong>30 Tage Rückgabe</strong> ohne Fragen ✦
-  </div>
-
-  <!-- ── Navigation ─────────────────────────────────────────────── -->
+  <!-- ── Navigation ─────────────────────────────────────────── -->
   <nav class="nav" id="nav" role="navigation" aria-label="Hauptnavigation">
-    <a href="#" class="nav__logo" aria-label="POTPLANT – Startseite">POT<span>PLANT</span></a>
+    <a href="#home" class="nav__logo" aria-label="POTPLANT – Startseite">POTPLANT</a>
 
     <ul class="nav__links" role="list">
-      <li><a href="#products">Produkte</a></li>
+      <li><a href="#products">Kollektion</a></li>
       <li><a href="#features">Vorteile</a></li>
-      <li><a href="#how-it-works">Wie es funktioniert</a></li>
-      <li><a href="#gallery">Galerie</a></li>
-      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#how-it-works">System</a></li>
+      <li><a href="#testimonials">Stimmen</a></li>
     </ul>
 
     <div class="nav__actions">
-      <button class="nav__cart-btn" aria-label="Warenkorb">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/>
+      <button class="nav__cart-btn" id="nav-cart-btn" aria-label="Warenkorb öffnen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
         </svg>
-        <span class="nav__cart-badge" aria-label="Artikel im Warenkorb">0</span>
+        <span class="nav__cart-count" id="nav-cart-count">0</span>
       </button>
-      <a href="#products" class="nav__cta">Shop entdecken</a>
-      <button class="nav__hamburger" aria-label="Menü öffnen" aria-expanded="false">
-        <span></span>
+      <button class="nav__hamburger" id="nav-hamburger" aria-label="Menü öffnen" aria-expanded="false">
         <span></span>
         <span></span>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile Navigation -->
-  <nav class="nav__mobile" aria-label="Mobile Navigation">
-    <a href="#products">Produkte</a>
-    <a href="#features">Vorteile</a>
-    <a href="#how-it-works">Wie es funktioniert</a>
-    <a href="#gallery">Galerie</a>
-    <a href="#testimonials">Bewertungen</a>
-    <a href="#faq">FAQ</a>
-    <a href="#newsletter">Newsletter</a>
-  </nav>
-
-  <!-- ── Hero Section ──────────────────────────────────────────── -->
-  <section class="hero" id="home" aria-labelledby="hero-title">
-    <div class="hero__bg-circles" aria-hidden="true">
-      <div class="hero__circle hero__circle--1"></div>
-      <div class="hero__circle hero__circle--2"></div>
-      <div class="hero__circle hero__circle--3"></div>
-    </div>
-
-    <div class="container hero__container">
-      <!-- Content -->
-      <div class="hero__content">
-        <div class="hero__eyebrow" aria-label="Kategorie">
-          <span class="hero__eyebrow-dot"></span>
-          Halbautomatische Bewässerung
-        </div>
-
-        <h1 class="hero__title" id="hero-title">
-          Pflanzen lieben.<br>
-          <em>Nie vergessen</em><br>
-          zu gießen.
-        </h1>
-
-        <p class="hero__subtitle">
-          Designer-Töpfe mit intelligentem Reservoir-System. Ihre Pflanze regelt ihren Wasserverbrauch selbst — Sie genießen einfach die Schönheit.
-        </p>
-
-        <div class="hero__actions">
-          <button class="btn btn--primary btn--lg" id="hero-cta">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-7-7l7 7-7 7"/>
-            </svg>
-            Kollektion entdecken
-          </button>
-          <a href="#how-it-works" class="btn btn--secondary btn--lg">Wie es funktioniert</a>
-        </div>
-
-        <div class="hero__stats" aria-label="Kennzahlen">
-          <div class="hero__stat">
-            <span class="hero__stat-num" data-counter="4200" data-suffix="+">0+</span>
-            <span class="hero__stat-label">Zufriedene Kunden</span>
-          </div>
-          <div class="hero__stat">
-            <span class="hero__stat-num" data-counter="4" data-suffix=" Wochen">0 Wochen</span>
-            <span class="hero__stat-label">Autonomous. Bewässerung</span>
-          </div>
-          <div class="hero__stat">
-            <span class="hero__stat-num" data-counter="6" data-suffix=" Designs">0 Designs</span>
-            <span class="hero__stat-label">Handgefertigte Töpfe</span>
-          </div>
-        </div>
+  <!-- ── Mobile Menu (full-screen takeover) ─────────────────── -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu__inner">
+      <nav class="mobile-menu__nav" aria-label="Mobile Navigation">
+        <a href="#products" class="mobile-menu__link">Kollektion</a>
+        <a href="#features" class="mobile-menu__link">Vorteile</a>
+        <a href="#how-it-works" class="mobile-menu__link">System</a>
+        <a href="#testimonials" class="mobile-menu__link">Stimmen</a>
+        <a href="#faq" class="mobile-menu__link">FAQ</a>
+      </nav>
+      <div class="mobile-menu__footer">
+        <span class="label">hallo@potplant.de</span>
       </div>
-
-      <!-- Visual -->
-      <div class="hero__visual" aria-hidden="true">
-        <div class="hero__visual-ring hero__visual-ring--outer"></div>
-        <div class="hero__visual-ring hero__visual-ring--inner"></div>
-
-        <img
-          class="hero__main-pot parallax-layer"
-          src="images/terra-flow.svg"
-          alt="Terra Flow – Bestseller Designer-Topf mit Selbstbewässerung"
-          width="340"
-          height="425"
-        />
-
-        <!-- Floating Badges -->
-        <div class="hero__floating-badge hero__floating-badge--1">
-          <div class="hero__badge-icon hero__badge-icon--green">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 22V12m0 0C12 7 7 4 3 5c0 4 3 8 9 7zm0 0c0-5 5-8 9-7-1 4-4 8-9 7"/>
-            </svg>
-          </div>
-          <div>
-            <div style="font-size:0.75rem;font-weight:700">Bis zu 4 Wochen</div>
-            <div style="font-size:0.68rem;color:#888;font-weight:400">ohne Nachfüllen</div>
-          </div>
-        </div>
-
-        <div class="hero__floating-badge hero__floating-badge--2">
-          <div class="hero__badge-icon hero__badge-icon--blue">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
-            </svg>
-          </div>
-          <div>
-            <div style="font-size:0.75rem;font-weight:700">Sichtbarer Wasserstand</div>
-            <div style="font-size:0.68rem;color:#888;font-weight:400">Intelligenter Indikator</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero__scroll-hint" aria-hidden="true">
-      <span>Scrollen</span>
-      <div class="hero__scroll-line"></div>
-    </div>
-  </section>
-
-  <!-- ── Trust Bar ──────────────────────────────────────────────── -->
-  <div class="trust-bar" aria-hidden="true">
-    <div class="trust-bar__track">
-      <!-- Duplicated for infinite marquee -->
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Gratis Versand ab 99 €
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Handgefertigt in Europa
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        30 Tage Rückgaberecht
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        2 Jahre Garantie
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Sichere Zahlung
-      </div>
-      <div class="trust-bar__divider"></div>
-      <!-- Duplicate for seamless loop -->
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Gratis Versand ab 99 €
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Handgefertigt in Europa
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        30 Tage Rückgaberecht
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        2 Jahre Garantie
-      </div>
-      <div class="trust-bar__divider"></div>
-      <div class="trust-bar__item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        Sichere Zahlung
-      </div>
-      <div class="trust-bar__divider"></div>
     </div>
   </div>
 
-  <!-- ── Products Section ───────────────────────────────────────── -->
-  <section class="section" id="products" aria-labelledby="products-heading">
-    <div class="container">
-      <div class="products-header reveal">
-        <span class="section-eyebrow">Unsere Kollektion</span>
-        <h2 class="section-title" id="products-heading">Sechs Ikonen.<br>Ein System.</h2>
-        <p class="section-subtitle">Jeder Topf ein Unikat — vereint handwerkliche Schönheit mit intelligentem Bewässerungsdesign.</p>
+  <!-- ── Hero Section ───────────────────────────────────────── -->
+  <section class="hero" id="home" aria-labelledby="hero-title">
+    <div class="hero__inner">
+      <!-- Left: headline block -->
+      <div class="hero__content">
+        <p class="label hero__label">Kollektion SS 26</p>
+        <h1 class="hero__title" id="hero-title">
+          Pflanzen,<br>
+          die sich<br>
+          <em>selbst versorgen.</em>
+        </h1>
+        <p class="hero__sub">
+          Designer-Töpfe mit intelligentem Reservoir-System.<br>
+          Handgefertigt in Europa.
+        </p>
+        <a href="#products" class="hero__cta">Kollektion entdecken</a>
       </div>
+
+      <!-- Right: large product image -->
+      <div class="hero__image-wrap" aria-hidden="true">
+        <img
+          class="hero__image"
+          src="images/terra-flow.svg"
+          alt="Terra Flow – Bestseller Designer-Topf"
+          width="420"
+          height="520"
+        />
+      </div>
+    </div>
+
+    <!-- Bottom stats rule -->
+    <div class="hero__stats" aria-label="Kennzahlen">
+      <div class="hero__stats-rule"></div>
+      <div class="hero__stats-items">
+        <div class="hero__stat">
+          <span class="hero__stat-num">4 200+</span>
+          <span class="label">Zufriedene Kunden</span>
+        </div>
+        <div class="hero__stat-divider" aria-hidden="true"></div>
+        <div class="hero__stat">
+          <span class="hero__stat-num">4 Wochen</span>
+          <span class="label">Autonome Bewässerung</span>
+        </div>
+        <div class="hero__stat-divider" aria-hidden="true"></div>
+        <div class="hero__stat">
+          <span class="hero__stat-num">6 Designs</span>
+          <span class="label">Handgefertigte Töpfe</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Products Section ──────────────────────────────────── -->
+  <section class="section products-section" id="products" aria-labelledby="products-heading">
+    <div class="container">
+      <header class="section-header reveal">
+        <p class="label">Unsere Kollektion</p>
+        <h2 class="section-title" id="products-heading">KOLLEKTION&ensp;—&ensp;SS 26</h2>
+      </header>
       <div class="products-grid" id="products-grid">
-        <!-- Products rendered by JS -->
+        <!-- Rendered by JS -->
       </div>
     </div>
   </section>
 
-  <!-- ── Features / USPs Section ───────────────────────────────── -->
-  <section class="section features" id="features" aria-labelledby="features-heading">
+  <!-- ── Features Section ──────────────────────────────────── -->
+  <section class="section features-section" id="features" aria-labelledby="features-heading">
     <div class="container">
-      <div class="text-center reveal">
-        <span class="section-eyebrow">Das Besondere</span>
-        <h2 class="section-title" id="features-heading">Warum POTPLANT?</h2>
-        <p class="section-subtitle" style="margin-inline:auto">Drei Kernvorteile, die Ihre Pflanzen glücklich und Ihren Alltag stressfrei machen.</p>
-      </div>
+      <header class="section-header reveal">
+        <p class="label label--light">Das Besondere</p>
+        <h2 class="section-title section-title--light" id="features-heading">Was POTPLANT<br><em>auszeichnet</em></h2>
+      </header>
 
-      <div class="features-grid">
-        <!-- Feature 1 -->
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
-            </svg>
+      <div class="features-list">
+
+        <div class="feature-item reveal">
+          <div class="feature-item__number">01</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Reservoir 2–4 Wochen</h3>
+            <p class="feature-item__text">Das patentierte Doppelkammer-Reservoir fasst bis zu 1,5 Liter Wasser und versorgt Ihre Pflanze vollkommen autonom. Perfekt für Reisen und einen vollen Alltag.</p>
           </div>
-          <h3 class="feature-card__title">Reservoir 2–4 Wochen</h3>
-          <p class="feature-card__text">Das patentierte Doppelkammer-Reservoir fasst bis zu 1,5 Liter Wasser und versorgt Ihre Pflanze vollkommen autonom über 2 bis 4 Wochen — perfekt für Urlaubsreisen oder einen vollen Alltag.</p>
         </div>
 
-        <!-- Feature 2 -->
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-            </svg>
+        <div class="feature-item reveal">
+          <div class="feature-item__number">02</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Selbstregulierende Wasserabgabe</h3>
+            <p class="feature-item__text">Das kapillare System gibt exakt so viel Wasser ab, wie die Pflanze gerade benötigt. Die Wurzeln steuern das System selbst — kein Über- oder Unterwässern mehr.</p>
           </div>
-          <h3 class="feature-card__title">Selbstregulierende Wasserabgabe</h3>
-          <p class="feature-card__text">Das kapillare System gibt exakt so viel Wasser ab, wie die Pflanze gerade benötigt. Kein Über- oder Unterwässern mehr — die Pflanzenwurzeln steuern das System selbst nach Bedarf.</p>
         </div>
 
-        <!-- Feature 3 -->
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-            </svg>
+        <div class="feature-item reveal">
+          <div class="feature-item__number">03</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Sichtbarer Wasserstandsanzeiger</h3>
+            <p class="feature-item__text">Der transparente Pegelindikator zeigt auf einen Blick, wann nachgefüllt wird. Kein Raten, kein Umheben — einfach ablesen.</p>
           </div>
-          <h3 class="feature-card__title">Sichtbarer Wasserstandsanzeiger</h3>
-          <p class="feature-card__text">Der transparente Pegelindikator an der Seite zeigt auf einen Blick, wann es Zeit zum Nachfüllen ist. Kein Raten, kein Umheben — einfach ablesen und wohl dosiert nachfüllen.</p>
         </div>
 
-        <!-- Feature 4 -->
-        <div class="feature-card reveal reveal-delay-1">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-            </svg>
+        <div class="feature-item reveal">
+          <div class="feature-item__number">04</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Handgefertigtes Premium-Design</h3>
+            <p class="feature-item__text">Jeder POTPLANT wird in kleiner Auflage von europäischen Keramikerinnen gefertigt. Die Formen, Glasuren und Texturen sind zeitlos — und einzigartig in jeder Wohnung.</p>
           </div>
-          <h3 class="feature-card__title">Handgefertigtes Premium-Design</h3>
-          <p class="feature-card__text">Jeder POTPLANT wird in kleiner Auflage von europäischen Keramikerinnen und Designern gefertigt. Die Formen, Glasuren und Texturen sind zeitlos — und einzigartig in jeder Wohnung.</p>
         </div>
 
-        <!-- Feature 5 -->
-        <div class="feature-card reveal reveal-delay-2">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+        <div class="feature-item reveal">
+          <div class="feature-item__number">05</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Nachhaltige Materialien</h3>
+            <p class="feature-item__text">Wir verwenden ausschließlich bleifreie, lebensmittelecht glasierte Keramik, recycelten Zement und schadstofffreie Farben.</p>
           </div>
-          <h3 class="feature-card__title">Nachhaltige Materialien</h3>
-          <p class="feature-card__text">Wir verwenden ausschließlich bleifreie, lebensmittelecht glasierte Keramik, recycelten Zement und schadstofffreie Farben. Gut für Ihre Pflanzen — und gut für die Erde.</p>
         </div>
 
-        <!-- Feature 6 -->
-        <div class="feature-card reveal reveal-delay-3">
-          <div class="feature-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-            </svg>
+        <div class="feature-item reveal">
+          <div class="feature-item__number">06</div>
+          <div class="feature-item__body">
+            <h3 class="feature-item__title">Geprüfte Lieferqualität</h3>
+            <p class="feature-item__text">Jeder Topf verlässt unser Haus sicher verpackt. Wir liefern versichert — bei Transportschäden erhalten Sie ohne Diskussion Ersatz innerhalb von 48 Stunden.</p>
           </div>
-          <h3 class="feature-card__title">Geprüfte Lieferqualität</h3>
-          <p class="feature-card__text">Jeder Topf verlässt unser Haus sicher verpackt in recycelbarer Schutzverpackung. Wir liefern versichert, und bei Transportschäden erhalten Sie ohne Diskussion Ersatz — innerhalb von 48 Stunden.</p>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ── How It Works ───────────────────────────────────────────── -->
-  <section class="section how-it-works" id="how-it-works" aria-labelledby="how-heading">
+  <!-- ── How It Works ──────────────────────────────────────── -->
+  <section class="section how-section" id="how-it-works" aria-labelledby="how-heading">
     <div class="container">
-      <div class="text-center reveal">
-        <span class="section-eyebrow">So funktioniert's</span>
-        <h2 class="section-title" id="how-heading">Vier einfache Schritte</h2>
-        <p class="section-subtitle" style="margin-inline:auto">Das POTPLANT-System ist denkbar einfach — einmalig einrichten, dauerhaft genießen.</p>
-      </div>
+      <header class="section-header reveal">
+        <p class="label">So funktioniert's</p>
+        <h2 class="section-title" id="how-heading">Vier Schritte.<br><em>Dauerhaft genießen.</em></h2>
+      </header>
 
-      <div class="steps-grid">
-        <!-- Step 1 -->
-        <div class="step-card reveal reveal-delay-1">
-          <div class="step-card__number">1</div>
-          <div class="step-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="#7A9E7E" stroke-width="1.6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
-          </div>
-          <h3 class="step-card__title">Topf auswählen</h3>
-          <p class="step-card__text">Wählen Sie aus sechs exklusiven Designs Ihren Lieblingstopf — passend zu Wohnstil und Pflanzensorte.</p>
-        </div>
+      <div class="steps-timeline">
+        <div class="steps-line" aria-hidden="true"></div>
 
-        <!-- Step 2 -->
-        <div class="step-card reveal reveal-delay-2">
-          <div class="step-card__number">2</div>
-          <div class="step-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="#7A9E7E" stroke-width="1.6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 22V12m0 0C12 7 7 4 3 5c0 4 3 8 9 7zm0 0c0-5 5-8 9-7-1 4-4 8-9 7"/>
-            </svg>
-          </div>
-          <h3 class="step-card__title">Pflanze einsetzen</h3>
-          <p class="step-card__text">Setzen Sie Ihre Pflanze mit geeigneter Erde in den Innentopf. Das Kapillarsystem verbindet Wurzeln und Reservoir automatisch.</p>
-        </div>
-
-        <!-- Step 3 -->
-        <div class="step-card reveal reveal-delay-3">
-          <div class="step-card__number">3</div>
-          <div class="step-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="#7A9E7E" stroke-width="1.6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
-            </svg>
-          </div>
-          <h3 class="step-card__title">Reservoir befüllen</h3>
-          <p class="step-card__text">Füllen Sie das Reservoir einmalig über die Einfüllöffnung mit Wasser — der sichtbare Pegelanzeiger zeigt Ihnen den Füllstand.</p>
-        </div>
-
-        <!-- Step 4 -->
-        <div class="step-card reveal reveal-delay-4">
-          <div class="step-card__number">4</div>
-          <div class="step-card__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" stroke="#7A9E7E" stroke-width="1.6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-            </svg>
-          </div>
-          <h3 class="step-card__title">Genießen</h3>
-          <p class="step-card__text">Fertig! Ihre Pflanze reguliert ihren Wasserverbrauch nun völlig selbstständig. Sie müssen nur noch die Schönheit genießen.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Gallery / Lookbook ─────────────────────────────────────── -->
-  <section class="section gallery" id="gallery" aria-labelledby="gallery-heading">
-    <div class="container">
-      <div class="text-center reveal">
-        <span class="section-eyebrow">Lookbook</span>
-        <h2 class="section-title" id="gallery-heading">Design in Szene gesetzt</h2>
-        <p class="section-subtitle" style="margin-inline:auto">Inspiration für jeden Wohnstil — von nordisch-minimalistisch bis tropisch-üppig.</p>
-      </div>
-
-      <div class="gallery-grid">
-        <!-- Item 1 – tall -->
-        <div class="gallery-item gallery-item--tall reveal">
-          <div class="gallery-item__img">
-            <div class="gallery-placeholder gallery-placeholder--1" style="height:100%">
-              <img src="images/terra-flow.svg" alt="Terra Flow in Wohnzimmer-Setting" style="width:70%;max-width:200px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.2))" />
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>Terra Flow — Wohnzimmer</span>
+        <div class="step reveal reveal-delay-1">
+          <div class="step__num">01</div>
+          <div class="step__body">
+            <h3 class="step__title">Topf auswählen</h3>
+            <p class="step__text">Wählen Sie aus sechs exklusiven Designs Ihren Lieblingstopf — passend zu Wohnstil und Pflanzensorte.</p>
           </div>
         </div>
 
-        <!-- Item 2 -->
-        <div class="gallery-item reveal reveal-delay-1">
-          <div class="gallery-item__img">
-            <div class="gallery-placeholder gallery-placeholder--2" style="height:100%">
-              <img src="images/nordic-mist.svg" alt="Nordic Mist auf Fensterbank" style="width:75%;max-width:180px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.2))" />
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>Nordic Mist — Küche</span>
+        <div class="step reveal reveal-delay-2">
+          <div class="step__num">02</div>
+          <div class="step__body">
+            <h3 class="step__title">Pflanze einsetzen</h3>
+            <p class="step__text">Setzen Sie Ihre Pflanze mit geeigneter Erde in den Innentopf. Das Kapillarsystem verbindet Wurzeln und Reservoir automatisch.</p>
           </div>
         </div>
 
-        <!-- Item 3 -->
-        <div class="gallery-item reveal reveal-delay-2">
-          <div class="gallery-item__img">
-            <div class="gallery-placeholder gallery-placeholder--3" style="height:100%">
-              <img src="images/marble-oasis.svg" alt="Marble Oasis im Schlafzimmer" style="width:75%;max-width:180px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.2))" />
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>Marble Oasis — Schlafzimmer</span>
+        <div class="step reveal reveal-delay-3">
+          <div class="step__num">03</div>
+          <div class="step__body">
+            <h3 class="step__title">Reservoir befüllen</h3>
+            <p class="step__text">Füllen Sie das Reservoir einmalig über die Einfüllöffnung mit Wasser — der sichtbare Pegelanzeiger zeigt den Füllstand.</p>
           </div>
         </div>
 
-        <!-- Item 4 – wide -->
-        <div class="gallery-item gallery-item--wide reveal reveal-delay-1">
-          <div class="gallery-item__img">
-            <div class="gallery-placeholder gallery-placeholder--4" style="height:100%;display:flex;align-items:center;justify-content:center;gap:2rem">
-              <img src="images/jungle-soul.svg" alt="Jungle Soul" style="width:30%;max-width:150px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.25))" />
-              <img src="images/zen-stone.svg" alt="Zen Stone" style="width:30%;max-width:150px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.25))" />
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>Jungle Soul &amp; Zen Stone — Duo</span>
-          </div>
-        </div>
-
-        <!-- Item 5 -->
-        <div class="gallery-item reveal reveal-delay-3">
-          <div class="gallery-item__img">
-            <div class="gallery-placeholder gallery-placeholder--5" style="height:100%">
-              <img src="images/sahara-dream.svg" alt="Sahara Dream" style="width:75%;max-width:180px;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.2))" />
-            </div>
-          </div>
-          <div class="gallery-item__overlay">
-            <span>Sahara Dream — Balkon</span>
+        <div class="step reveal reveal-delay-4">
+          <div class="step__num">04</div>
+          <div class="step__body">
+            <h3 class="step__title">Genießen</h3>
+            <p class="step__text">Ihre Pflanze reguliert ihren Wasserverbrauch nun völlig selbstständig. Sie müssen nur noch die Schönheit genießen.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── Testimonials ────────────────────────────────────────────── -->
-  <section class="section testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+  <!-- ── Testimonials ──────────────────────────────────────── -->
+  <section class="section testimonials-section" id="testimonials" aria-labelledby="testimonials-heading">
     <div class="container">
-      <div class="text-center reveal">
-        <span class="section-eyebrow">Kundenstimmen</span>
-        <h2 class="section-title" id="testimonials-heading">Was unsere Kunden sagen</h2>
-        <p class="section-subtitle" style="margin-inline:auto">Über 4.200 begeisterte Kunden in Deutschland, Österreich und der Schweiz.</p>
-      </div>
+      <header class="section-header reveal">
+        <p class="label label--light">Kundenstimmen</p>
+        <h2 class="section-title section-title--light" id="testimonials-heading">Was unsere Kunden<br><em>sagen</em></h2>
+      </header>
 
       <div class="testimonials-grid">
-        <!-- Testimonial 1 -->
-        <div class="testimonial-card reveal reveal-delay-1">
-          <div class="testimonial-card__stars" aria-label="5 von 5 Sternen">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <p class="testimonial-card__text">
-            "Der Terra Flow steht jetzt drei Monate bei mir — meine Monstera war noch nie so gesund. Ich bin zwei Wochen in Urlaub gefahren und zurückgekommen, und sie war makellos. Das Ding ist wirklich magisch."
-          </p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar avatar--terra">L</div>
-            <div>
-              <div class="testimonial-card__name">Lena Brandt</div>
-              <div class="testimonial-card__location">München, Bayern</div>
-            </div>
-          </div>
+
+        <div class="testimonial reveal reveal-delay-1">
+          <div class="testimonial__quote" aria-hidden="true">&ldquo;</div>
+          <blockquote class="testimonial__text">
+            Der Terra Flow steht jetzt drei Monate bei mir — meine Monstera war noch nie so gesund. Ich bin zwei Wochen in Urlaub gefahren und zurückgekommen, und sie war makellos.
+          </blockquote>
+          <footer class="testimonial__footer">
+            <cite class="testimonial__author">
+              <span class="testimonial__name">Lena Brandt</span>
+              <span class="label">München, Bayern</span>
+            </cite>
+          </footer>
         </div>
 
-        <!-- Testimonial 2 -->
-        <div class="testimonial-card reveal reveal-delay-2">
-          <div class="testimonial-card__stars" aria-label="5 von 5 Sternen">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <p class="testimonial-card__text">
-            "Der Marble Oasis ist eine echte Skulptur. Alle Gäste fragen sofort danach. Das Selbstbewässerungssystem funktioniert einwandfrei — ich habe mein Vertrauen in Zimmerpflanzen vollständig zurückgewonnen."
-          </p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar avatar--sage">T</div>
-            <div>
-              <div class="testimonial-card__name">Thomas Huber</div>
-              <div class="testimonial-card__location">Wien, Österreich</div>
-            </div>
-          </div>
+        <div class="testimonial reveal reveal-delay-2">
+          <div class="testimonial__quote" aria-hidden="true">&ldquo;</div>
+          <blockquote class="testimonial__text">
+            Der Marble Oasis ist eine echte Skulptur. Alle Gäste fragen sofort danach. Das Selbstbewässerungssystem funktioniert einwandfrei — ich habe mein Vertrauen in Zimmerpflanzen zurückgewonnen.
+          </blockquote>
+          <footer class="testimonial__footer">
+            <cite class="testimonial__author">
+              <span class="testimonial__name">Thomas Huber</span>
+              <span class="label">Wien, Österreich</span>
+            </cite>
+          </footer>
         </div>
 
-        <!-- Testimonial 3 -->
-        <div class="testimonial-card reveal reveal-delay-3">
-          <div class="testimonial-card__stars" aria-label="5 von 5 Sternen">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <p class="testimonial-card__text">
-            "Ich habe drei Stück verschenkt — Sahara Dream für meine Mutter, Nordic Mist für die Bürokollegin, Jungle Soul für mich. Alle drei total begeistert. Lieferung blitzschnell, Verpackung nachhaltig."
-          </p>
-          <div class="testimonial-card__author">
-            <div class="testimonial-card__avatar avatar--water">S</div>
-            <div>
-              <div class="testimonial-card__name">Sarah Zimmermann</div>
-              <div class="testimonial-card__location">Zürich, Schweiz</div>
-            </div>
-          </div>
+        <div class="testimonial reveal reveal-delay-3">
+          <div class="testimonial__quote" aria-hidden="true">&ldquo;</div>
+          <blockquote class="testimonial__text">
+            Ich habe drei Stück verschenkt — alle drei total begeistert. Lieferung blitzschnell, Verpackung nachhaltig. Ein Produkt, das wirklich hält, was es verspricht.
+          </blockquote>
+          <footer class="testimonial__footer">
+            <cite class="testimonial__author">
+              <span class="testimonial__name">Sarah Zimmermann</span>
+              <span class="label">Zürich, Schweiz</span>
+            </cite>
+          </footer>
         </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ── FAQ Section ────────────────────────────────────────────── -->
-  <section class="section faq" id="faq" aria-labelledby="faq-heading">
+  <!-- ── FAQ ───────────────────────────────────────────────── -->
+  <section class="section faq-section" id="faq" aria-labelledby="faq-heading">
     <div class="container">
-      <div class="text-center reveal">
-        <span class="section-eyebrow">Häufige Fragen</span>
-        <h2 class="section-title" id="faq-heading">Alle Antworten auf einen Blick</h2>
-      </div>
+      <header class="section-header reveal">
+        <p class="label">Häufige Fragen</p>
+        <h2 class="section-title" id="faq-heading">FAQ</h2>
+      </header>
 
       <div class="faq-list" role="list">
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Wie lange hält das Reservoir-Wasser?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Je nach Pflanzensorte, Topfgröße und Jahreszeit reicht das Reservoir 2–4 Wochen. Sukkulenten und Kakteen kommen mit dem Sahara Dream sogar 4–6 Wochen aus. Der sichtbare Pegelanzeiger zeigt Ihnen genau, wann nachgefüllt werden muss.</p>
+            <p>Je nach Pflanzensorte, Topfgröße und Jahreszeit reicht das Reservoir 2–4 Wochen. Sukkulenten und Kakteen kommen mit dem Sahara Dream sogar 4–6 Wochen aus.</p>
           </div>
         </div>
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Funktioniert das System mit jeder Pflanzensorte?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Das kapillare Bewässerungssystem funktioniert hervorragend für die meisten Zimmerpflanzen — von Monstera über Orchideen bis zu Kräutern und Sukkulenten. Einzige Ausnahme: Wasserpflanzen oder Pflanzen, die bewusst komplett trockene Phasen benötigen (z.B. bestimmte Kakteenarten), benötigen etwas Anpassung.</p>
+            <p>Das kapillare Bewässerungssystem funktioniert hervorragend für die meisten Zimmerpflanzen — von Monstera über Orchideen bis zu Kräutern und Sukkulenten.</p>
           </div>
         </div>
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Kann ich auch Düngerlösung ins Reservoir füllen?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Ja! Flüssigdünger kann verdünnt ins Reservoir gegeben werden — die Pflanze nimmt die Nährstoffe nach Bedarf auf. Wir empfehlen einen Dünger auf Basis von 25–50 % der normalen Konzentration, um Überdüngung zu vermeiden.</p>
+            <p>Ja. Flüssigdünger kann verdünnt ins Reservoir gegeben werden — wir empfehlen 25–50 % der normalen Konzentration, um Überdüngung zu vermeiden.</p>
           </div>
         </div>
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Wie reinige ich das Reservoir und den Topf?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Das Reservoir lässt sich einfach ausleeren und mit klarem Wasser ausspülen. Alle 2–3 Monate empfehlen wir eine gründlichere Reinigung mit einer 1:10 Essig-Wasser-Lösung, um Kalkablagerungen zu entfernen. Den Keramikäußeren einfach mit feuchtem Tuch reinigen — keine Reinigungsmittel nötig.</p>
+            <p>Das Reservoir lässt sich einfach ausleeren und mit klarem Wasser ausspülen. Alle 2–3 Monate empfehlen wir eine Reinigung mit einer 1:10 Essig-Wasser-Lösung gegen Kalkablagerungen.</p>
           </div>
         </div>
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Wie lange dauert die Lieferung?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Bestellungen innerhalb Deutschlands werden innerhalb von 2–4 Werktagen geliefert. Österreich und Schweiz: 3–6 Werktage. In der Regel sind wir schneller. Alle Sendungen werden versichert versendet — Sie erhalten eine Trackingnummer per E-Mail.</p>
+            <p>Innerhalb Deutschlands 2–4 Werktage. Österreich und Schweiz: 3–6 Werktage. Alle Sendungen werden versichert versendet.</p>
           </div>
         </div>
 
-        <div class="faq-item" role="listitem">
+        <div class="faq-item reveal" role="listitem">
           <button class="faq-question" aria-expanded="false">
             Gilt das Rückgaberecht auch für gebrauchte Töpfe?
-            <span class="faq-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-            </span>
+            <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer">
-            <p>Absolut. Wir bieten 30 Tage Rückgaberecht, auch wenn Sie den Topf bereits genutzt haben. Wenn Sie nicht 100 % zufrieden sind, erstatten wir den vollen Kaufpreis — ohne Fragen, ohne Stress. Einfach per E-Mail melden, und wir kümmern uns.</p>
+            <p>Absolut. Wir bieten 30 Tage Rückgaberecht, auch wenn Sie den Topf bereits genutzt haben. Vollständige Erstattung — ohne Fragen.</p>
           </div>
         </div>
 
@@ -659,120 +404,77 @@
     </div>
   </section>
 
-  <!-- ── Newsletter Section ─────────────────────────────────────── -->
-  <section class="section newsletter" id="newsletter" aria-labelledby="newsletter-heading">
-    <div class="container text-center">
-      <div class="reveal">
-        <span class="section-eyebrow">Newsletter</span>
-        <h2 class="section-title" id="newsletter-heading">Bleiben Sie im Grünen</h2>
-        <p class="section-subtitle" style="color:rgba(242,237,228,0.7);margin-inline:auto">Pflege-Tipps, neue Kollektionen und exklusive Rabatte — direkt in Ihr Postfach. Kein Spam, versprochen.</p>
-
+  <!-- ── Newsletter ─────────────────────────────────────────── -->
+  <section class="section newsletter-section" id="newsletter" aria-labelledby="newsletter-heading">
+    <div class="container">
+      <div class="newsletter-inner reveal">
+        <div class="newsletter-text">
+          <p class="label label--light">Newsletter</p>
+          <h2 class="section-title section-title--light" id="newsletter-heading">Immer<br><em>informiert.</em></h2>
+          <p class="newsletter-sub">Neue Kollektionen, Pflege-Tipps und exklusive Angebote — direkt in Ihr Postfach.</p>
+        </div>
         <form class="newsletter-form" id="newsletter-form" novalidate>
-          <input
-            type="email"
-            class="newsletter-input"
-            placeholder="Ihre E-Mail-Adresse"
-            aria-label="E-Mail-Adresse für Newsletter"
-            autocomplete="email"
-            required
-          />
-          <button type="submit" class="btn btn--terra" style="background:var(--clr-terra);color:#fff;border-radius:9999px;padding:0.85rem 1.75rem;font-weight:600;font-size:0.9rem;white-space:nowrap;flex-shrink:0;transition:all 0.25s ease">
-            Anmelden
-          </button>
+          <div class="newsletter-field">
+            <input
+              type="email"
+              class="newsletter-input"
+              id="newsletter-email"
+              placeholder="E-Mail-Adresse"
+              aria-label="E-Mail-Adresse für Newsletter"
+              autocomplete="email"
+              required
+            />
+            <button type="submit" class="newsletter-btn">Anmelden</button>
+          </div>
+          <p class="newsletter-note">Mit der Anmeldung akzeptieren Sie unsere <a href="#">Datenschutzerklärung</a>.</p>
         </form>
-
-        <p class="newsletter-note">Mit der Anmeldung akzeptieren Sie unsere <a href="#" style="color:rgba(255,255,255,0.5);text-decoration:underline">Datenschutzerklärung</a>. Abmeldung jederzeit möglich.</p>
       </div>
     </div>
   </section>
 
-  <!-- ── Footer ──────────────────────────────────────────────────── -->
+  <!-- ── Footer ────────────────────────────────────────────── -->
   <footer class="footer" id="contact" role="contentinfo">
     <div class="container">
-      <div class="footer-top">
-        <!-- Brand -->
-        <div class="footer-brand">
-          <div class="footer-brand__logo">POT<span>PLANT</span></div>
-          <p class="footer-brand__tagline">Designer-Töpfe mit intelligentem Bewässerungssystem. Handgefertigt in Europa. Für Menschen, die Pflanzen lieben.</p>
-          <div class="footer-social">
-            <!-- Instagram -->
-            <a href="#" class="footer-social__link" aria-label="Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-              </svg>
-            </a>
-            <!-- Pinterest -->
-            <a href="#" class="footer-social__link" aria-label="Pinterest">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 2C6.48 2 2 6.48 2 12c0 4.24 2.65 7.86 6.39 9.29-.09-.78-.17-1.98.04-2.83.18-.77 1.24-5.24 1.24-5.24s-.32-.63-.32-1.57c0-1.47.85-2.57 1.91-2.57.9 0 1.34.68 1.34 1.49 0 .91-.58 2.27-.88 3.53-.25 1.05.52 1.91 1.55 1.91 1.86 0 3.11-2.4 3.11-5.24 0-2.16-1.46-3.67-3.54-3.67-2.41 0-3.83 1.81-3.83 3.68 0 .73.28 1.51.63 1.93.07.08.08.15.06.23l-.24.96c-.04.15-.12.18-.28.11-1.04-.49-1.69-2.01-1.69-3.24 0-2.63 1.91-5.05 5.51-5.05 2.89 0 5.14 2.06 5.14 4.81 0 2.87-1.81 5.18-4.32 5.18-.84 0-1.64-.44-1.91-.96l-.52 1.94c-.19.72-.69 1.62-1.03 2.17.78.24 1.6.37 2.45.37 5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
-              </svg>
-            </a>
-            <!-- TikTok -->
-            <a href="#" class="footer-social__link" aria-label="TikTok">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12a4 4 0 104 4V4a5 5 0 005 5"/>
-              </svg>
-            </a>
-          </div>
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#home" class="footer__logo" aria-label="POTPLANT – Startseite">POTPLANT</a>
+          <p class="footer__tagline">Designer-Töpfe mit intelligentem<br>Bewässerungssystem. Handgefertigt<br>in Europa.</p>
         </div>
 
-        <!-- Shop Links -->
-        <div class="footer-col">
-          <h3 class="footer-col__title">Shop</h3>
+        <div class="footer__col">
+          <p class="label label--dim">Shop</p>
           <ul>
             <li><a href="#products">Alle Produkte</a></li>
             <li><a href="#products">Neuheiten</a></li>
             <li><a href="#products">Bestseller</a></li>
             <li><a href="#products">Sets &amp; Bundles</a></li>
-            <li><a href="#products">Geschenkkarten</a></li>
           </ul>
         </div>
 
-        <!-- Info Links -->
-        <div class="footer-col">
-          <h3 class="footer-col__title">Info</h3>
+        <div class="footer__col">
+          <p class="label label--dim">Info</p>
           <ul>
             <li><a href="#how-it-works">Wie es funktioniert</a></li>
             <li><a href="#faq">FAQ</a></li>
             <li><a href="#">Pflege-Guide</a></li>
             <li><a href="#">Über uns</a></li>
-            <li><a href="#">Nachhaltigkeit</a></li>
           </ul>
         </div>
 
-        <!-- Contact -->
-        <div class="footer-col">
-          <h3 class="footer-col__title">Kontakt</h3>
-          <div class="footer-contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <span>hallo@potplant.de</span>
-          </div>
-          <div class="footer-contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
-            </svg>
-            <span>+49 89 1234 5678</span>
-          </div>
-          <div class="footer-contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span>Gartenstraße 12<br>80333 München</span>
-          </div>
+        <div class="footer__col">
+          <p class="label label--dim">Kontakt</p>
+          <ul>
+            <li><a href="mailto:hallo@potplant.de">hallo@potplant.de</a></li>
+            <li><a href="tel:+498912345678">+49 89 1234 5678</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Pinterest</a></li>
+          </ul>
         </div>
       </div>
 
-      <!-- Footer Bottom -->
-      <div class="footer-bottom">
-        <p style="color:rgba(242,237,228,0.35)">
-          &copy; 2025 POTPLANT GmbH. Alle Rechte vorbehalten.
-        </p>
-        <div class="footer-bottom__links">
+      <div class="footer__bottom">
+        <p>&copy; 2026 POTPLANT GmbH. Alle Rechte vorbehalten.</p>
+        <div class="footer__legal">
           <a href="#">Impressum</a>
           <a href="#">Datenschutz</a>
           <a href="#">AGB</a>
@@ -782,7 +484,7 @@
     </div>
   </footer>
 
-  <!-- ── Scripts ────────────────────────────────────────────────── -->
+  <!-- ── Scripts ───────────────────────────────────────────── -->
   <script src="js/main.js"></script>
 
 </body>
