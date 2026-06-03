@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="nordicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#B0BEC5;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#78909C;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="soilGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#546E7A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#37474F;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#B3E5FC;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#29B6F6;stop-opacity:0.9" />
+    </linearGradient>
+    <radialGradient id="bgGrad3" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#F0F4F8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E2EAF0;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bgGrad3)" rx="12"/>
+  <!-- Shadow -->
+  <ellipse cx="200" cy="448" rx="85" ry="10" fill="rgba(0,0,0,0.1)"/>
+  <!-- Square Nordic pot shape -->
+  <rect x="115" y="200" width="170" height="240" rx="8" fill="url(#nordicGrad)"/>
+  <!-- Top edge highlight -->
+  <rect x="115" y="200" width="170" height="15" rx="8" fill="#CFD8DC"/>
+  <!-- Side texture lines -->
+  <line x1="155" y1="220" x2="155" y2="435" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <line x1="200" y1="220" x2="200" y2="435" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+  <line x1="245" y1="220" x2="245" y2="435" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+  <!-- Water window -->
+  <rect x="265" y="280" width="12" height="120" rx="6" fill="rgba(255,255,255,0.3)"/>
+  <rect x="267" y="330" width="8" height="68" rx="4" fill="url(#waterGrad3)"/>
+  <!-- Soil surface -->
+  <rect x="120" y="205" width="160" height="25" rx="5" fill="url(#soilGrad3)"/>
+  <!-- Lavender plant -->
+  <path d="M165 210 Q160 180 155 150 Q150 120 160 95" stroke="#7E57C2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M185 210 Q183 175 180 145 Q177 118 185 90" stroke="#9575CD" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M200 210 Q200 178 200 150 Q200 122 200 95" stroke="#7E57C2" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M215 210 Q217 178 220 148 Q223 118 215 90" stroke="#9575CD" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M235 210 Q240 180 245 150 Q250 120 240 95" stroke="#7E57C2" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Lavender flower spikes -->
+  <ellipse cx="160" cy="88" rx="5" ry="14" fill="#AB47BC"/>
+  <ellipse cx="185" cy="82" rx="4" ry="13" fill="#CE93D8"/>
+  <ellipse cx="200" cy="86" rx="5" ry="14" fill="#BA68C8"/>
+  <ellipse cx="215" cy="82" rx="4" ry="13" fill="#AB47BC"/>
+  <ellipse cx="240" cy="88" rx="5" ry="14" fill="#CE93D8"/>
+  <!-- Small flowers on spikes -->
+  <circle cx="160" cy="80" r="4" fill="#E040FB"/>
+  <circle cx="185" cy="74" r="3.5" fill="#EA80FC"/>
+  <circle cx="200" cy="78" r="4" fill="#E040FB"/>
+  <circle cx="215" cy="74" r="3.5" fill="#EA80FC"/>
+  <circle cx="240" cy="80" r="4" fill="#E040FB"/>
+  <!-- Label area -->
+  <rect x="130" y="355" width="140" height="50" rx="4" fill="rgba(255,255,255,0.2)"/>
+  <text x="200" y="375" text-anchor="middle" font-family="sans-serif" font-size="10" fill="white" font-weight="bold" letter-spacing="2">NORDIC MIST</text>
+  <text x="200" y="393" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,255,255,0.85)">self-watering</text>
+</svg>

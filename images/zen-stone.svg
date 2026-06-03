@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="zenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8D6E63;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#6D4C41;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4E342E;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="soilGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A3728;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2C1810;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="waterGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#A5D6A7;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#388E3C;stop-opacity:0.9" />
+    </linearGradient>
+    <radialGradient id="bgGrad5" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" style="stop-color:#FAFAFA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F0EDE8;stop-opacity:1" />
+    </radialGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bgGrad5)" rx="12"/>
+  <!-- Shadow -->
+  <ellipse cx="200" cy="448" rx="80" ry="10" fill="rgba(0,0,0,0.12)"/>
+  <!-- Low wide bonsai pot shape -->
+  <path d="M105 438 L108 320 Q110 298 125 290 L275 290 Q290 298 292 320 L295 438 Z" fill="url(#zenGrad)"/>
+  <!-- Foot rim -->
+  <rect x="105" y="428" width="190" height="14" rx="7" fill="#5D4037"/>
+  <!-- Pot top -->
+  <rect x="108" y="285" width="184" height="20" rx="4" fill="#795548"/>
+  <!-- Stone texture marks -->
+  <path d="M120 320 Q145 315 170 322 Q195 328 220 320 Q245 312 270 318" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/>
+  <path d="M118 360 Q143 353 168 361 Q193 368 218 358 Q243 348 270 356" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+  <path d="M115 400 Q140 393 168 400 Q195 407 220 397 Q245 387 280 395" stroke="rgba(255,255,255,0.08)" stroke-width="1" fill="none"/>
+  <!-- Water indicator side mounted -->
+  <rect x="280" y="310" width="10" height="90" rx="5" fill="rgba(255,255,255,0.2)"/>
+  <rect x="281.5" y="355" width="7" height="43" rx="3.5" fill="url(#waterGrad5)"/>
+  <!-- Soil -->
+  <rect x="113" y="290" width="174" height="20" rx="4" fill="url(#soilGrad5)"/>
+  <!-- Bonsai tree -->
+  <rect x="196" y="225" width="8" height="70" rx="4" fill="#3E2723"/>
+  <!-- Main branches -->
+  <path d="M200 250 Q175 235 155 240 Q140 245 135 235" stroke="#4E342E" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M200 250 Q225 232 245 238 Q260 243 265 232" stroke="#4E342E" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M200 235 Q195 218 185 210" stroke="#4E342E" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <!-- Foliage clouds -->
+  <circle cx="140" cy="225" r="22" fill="#4CAF50"/>
+  <circle cx="160" cy="215" r="20" fill="#388E3C"/>
+  <circle cx="178" cy="220" r="18" fill="#43A047"/>
+  <circle cx="265" cy="223" r="21" fill="#388E3C"/>
+  <circle cx="245" cy="215" r="20" fill="#4CAF50"/>
+  <circle cx="228" cy="220" r="17" fill="#43A047"/>
+  <circle cx="188" cy="200" r="18" fill="#2E7D32"/>
+  <circle cx="200" cy="195" r="16" fill="#388E3C"/>
+  <circle cx="213" cy="200" r="15" fill="#4CAF50"/>
+  <!-- Label -->
+  <rect x="150" y="388" width="100" height="36" rx="4" fill="rgba(0,0,0,0.15)"/>
+  <text x="200" y="404" text-anchor="middle" font-family="sans-serif" font-size="10" fill="white" font-weight="bold">ZEN STONE</text>
+  <text x="200" y="419" text-anchor="middle" font-family="sans-serif" font-size="8" fill="rgba(255,255,255,0.85)">self-watering</text>
+</svg>
